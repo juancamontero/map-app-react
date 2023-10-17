@@ -164,7 +164,7 @@ export const MapProvider = ({ children }: Props) => {
     }
 
     // * ajusta el mapa a los bound con un padding
-    state.map?.fitBounds(bounds, { padding: 220 })
+    state.map?.fitBounds(bounds, { padding: 20 })
 
     // * creo polyline
     const sourceData: AnySourceData = {
