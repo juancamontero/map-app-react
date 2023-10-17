@@ -1,33 +1,28 @@
 import { useContext } from "react"
 import { MapContext, PlacesContext } from "../context"
 
-export const BtnMyLocation = () => {
+export const BtnSetGazaSize = () => {
   const { userLocation } = useContext(PlacesContext)
-  const { isMapReady, map } = useContext(MapContext)
+  const { getGazaSize } = useContext(MapContext)
 
-  const onClick = () => {
+  const drawGazaStrip = () => {
     if (!userLocation) throw new Error("Ubicación no disponible")
-    if (!isMapReady) throw new Error("Mapa no está listo")
-
-    map?.flyTo({
-      center: userLocation,
-      zoom: 14,
-    })
+    getGazaSize(userLocation)
   }
 
   return (
     <button
-      className="btn btn-primary btn-sm"
+      className="btn btn-danger btn-sm"
       style={{
         position: "fixed",
-        top: "20px",
+        top: "60px",
         right: "20px",
         zIndex: 999,
         width: "200px",
       }}
-      onClick={onClick}
+      onClick={drawGazaStrip}
     >
-      ¿Where am i?
+      Gaza Strip size
     </button>
   )
 }

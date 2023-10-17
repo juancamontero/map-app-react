@@ -9,9 +9,11 @@ export interface MapContextProps {
 
   // Methods
   setMap: (map: Map) => void
-  getRouteBetweenPoints: (start: [number, number], end: [number, number]) => Promise<void>
+  getRouteBetweenPoints: (
+    start: [number, number],
+    end: [number, number]
+  ) => Promise<void>
+  getGazaSize: (start: [number, number]) => void
 }
 
-export const MapContext = createContext<MapContextProps>(
-  {} as MapContextProps
-)
+export const MapContext = createContext<MapContextProps>({} as MapContextProps)

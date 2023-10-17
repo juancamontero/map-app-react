@@ -5,6 +5,7 @@ import { mapReducer } from "./mapReducer"
 import { PlacesContext } from ".."
 import { directionsApi } from "../../apis"
 import { DirectionsResponse } from "../../interfaces/directions"
+import { buildGazaCoords } from "../../helpers"
 
 export interface MapState {
   isMapReady: boolean
@@ -81,6 +82,7 @@ export const MapProvider = ({ children }: Props) => {
     const { distance, duration, geometry } = resp.data.routes[0]
     const { coordinates: coords } = geometry
 
+    
     let kms = distance / 1000
     kms = Math.round(kms * 100) / 100
     const minutes = duration / 60
@@ -138,7 +140,72 @@ export const MapProvider = ({ children }: Props) => {
         "line-join": "round",
       },
       paint: {
-        "line-color": "#b36",
+        "line-color": "black",
+        "line-width": 6,
+      },
+    })
+  }
+
+
+  const getGazaSize = (
+    start: [number, number],
+    
+  ) => {
+
+    const coords = buildGazaCoords(start)
+
+    // * debo definir unos límites para que se vea toda la ruta
+    const bounds = new LngLatBounds(start, start)
+
+    // * recorro las coordinadas y las añado a los bounds
+    for (const coord of coords) {
+      const newCoord: [number, number] = [coord[0], coord[1]]
+      bounds.extend(newCoord)
+    }
+
+    // * ajusta el mapa a los bound con un padding
+    state.map?.fitBounds(bounds, { padding: 220 })
+
+    // * creo polyline
+    const sourceData: AnySourceData = {
+      type: "geojson",
+      data: {
+        type: "FeatureCollection",
+        features: [
+          {
+            type: "Feature",
+            properties: {},
+            geometry: {
+              type: "LineString",
+              coordinates: coords,
+            },
+          },
+        ],
+      },
+    }
+
+    // * remover polylines if them exist previusly porque solo creé un ID
+
+    if (state.map?.getLayer("Gaza")) {
+      // * remuevo layer y data
+      state.map?.removeLayer("Gaza")
+      state.map?.removeSource("GazaSizePolyline")
+    }
+
+    // * adiciono la data al maoa
+    state.map?.addSource("GazaSizePolyline", sourceData)
+
+    //* creo un layer con el ID del source de la data
+    state.map?.addLayer({
+      id: "Gaza",
+      type: "line",
+      source: "GazaSizePolyline",
+      layout: {
+        "line-cap": "round",
+        "line-join": "round",
+      },
+      paint: {
+        "line-color": "red",
         "line-width": 6,
       },
     })
@@ -152,6 +219,7 @@ export const MapProvider = ({ children }: Props) => {
         // Methods
         setMap,
         getRouteBetweenPoints,
+        getGazaSize,
       }}
     >
       {children}

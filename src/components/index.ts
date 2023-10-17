@@ -1,4 +1,5 @@
 export { BtnMyLocation } from "./BtnMyLocation"
+export { BtnSetGazaSize } from "./BtnSetGazaSize"
 export { Loading } from "./Loading"
 export { LoadingPlaces } from "./LoadingPlaces"
 export { MapView } from "./MapView"
