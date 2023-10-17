@@ -12,17 +12,17 @@ export const BtnSetGazaSize = () => {
 
   return (
     <button
-      className="btn btn-danger btn-sm"
+      className="btn btn-danger btn-sm mobile-btn"
       style={{
         position: "fixed",
-        top: "60px",
+        bottom: "60px",
         right: "20px",
         zIndex: 999,
         width: "200px",
       }}
       onClick={drawGazaStrip}
     >
-      Gaza Strip size
+      Gaza en su ubicación
     </button>
   )
 }

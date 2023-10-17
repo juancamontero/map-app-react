@@ -20,14 +20,14 @@ export const BtnMyLocation = () => {
       className="btn btn-primary btn-sm"
       style={{
         position: "fixed",
-        top: "20px",
+        bottom: "20px",
         right: "20px",
         zIndex: 999,
         width: "200px",
       }}
       onClick={onClick}
     >
-      ¿Where am i?
+      ¿Dónde estoy?
     </button>
   )
 }
