@@ -13,12 +13,11 @@ export const buildGazaCoords = (start: [number, number]) => {
 
   for (let i = 0; i < VECTORS_BUILDER.length; i++) {
     const newCoord = [
-      Math.round((coords[i][0] + VECTORS_BUILDER[i][0])*100000)/100000,
-      Math.round((coords[i][1] + VECTORS_BUILDER[i][1])*100000)/100000,
+      Math.round((coords[i][0] + VECTORS_BUILDER[i][0]) * 100000) / 100000,
+      Math.round((coords[i][1] + VECTORS_BUILDER[i][1]) * 100000) / 100000,
     ]
     coords.push(newCoord)
   }
-  console.log(coords)
 
   return coords
 }

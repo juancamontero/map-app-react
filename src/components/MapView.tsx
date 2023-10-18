@@ -14,7 +14,7 @@ export const MapView = () => {
     if (!isLoading) {
       const map = new Map({
         container: mapDiv.current!,
-        style: "mapbox://styles/mapbox/light-v10", // style URL
+        style: "mapbox://styles/mapbox/outdoors-v12", // style URL
         center: userLocation, // starting position [lng, lat]
         zoom: 14, // starting zoom
       })

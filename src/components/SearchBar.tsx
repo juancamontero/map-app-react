@@ -14,7 +14,7 @@ export const SearchBar = () => {
     // * Luego creo el timeout
     debounceRef.current = setTimeout(() => {
       // todo: buscar o consultar
-      console.log(`Debounced value: ${event.target.value}`)
+
       searchPlacesByTerm(event.target.value)
     }, 350)
   }

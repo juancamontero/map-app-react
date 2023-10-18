@@ -1,4 +1,11 @@
-import { AnySourceData, LngLatBounds, Map, Marker, Popup } from "mapbox-gl"
+import {
+  AnySourceData,
+  LngLat,
+  LngLatBounds,
+  Map,
+  Marker,
+  Popup,
+} from "mapbox-gl"
 import { MapContext } from "./MapContext"
 import { useContext, useEffect, useReducer } from "react"
 import { mapReducer } from "./mapReducer"
@@ -82,7 +89,6 @@ export const MapProvider = ({ children }: Props) => {
     const { distance, duration, geometry } = resp.data.routes[0]
     const { coordinates: coords } = geometry
 
-    
     let kms = distance / 1000
     kms = Math.round(kms * 100) / 100
     const minutes = duration / 60
@@ -146,22 +152,20 @@ export const MapProvider = ({ children }: Props) => {
     })
   }
 
-
-  const getGazaSize = (
-    start: [number, number],
-    
-  ) => {
-
+  const getGazaSize = (start: [number, number]) => {
     const coords = buildGazaCoords(start)
 
     // * debo definir unos límites para que se vea toda la ruta
-    const bounds = new LngLatBounds(start, start)
+    const startLike = new LngLat(start[0], start[1])
+
+    const bounds = new LngLatBounds(startLike, startLike)
 
     // * recorro las coordinadas y las añado a los bounds
     for (const coord of coords) {
       const newCoord: [number, number] = [coord[0], coord[1]]
       bounds.extend(newCoord)
     }
+    // console.log({bounds})
 
     // * ajusta el mapa a los bound con un padding
     state.map?.fitBounds(bounds, { padding: 20 })

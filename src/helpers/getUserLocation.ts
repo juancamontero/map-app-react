@@ -6,7 +6,7 @@ export const getUserLocation = async (): Promise<[number, number]> => {
         resolve([coords.longitude, coords.latitude])
       },
       (err) => {
-        alert("Can´t get user location")
+        alert("Can't get user location")
         console.error(err)
         reject()
       }
