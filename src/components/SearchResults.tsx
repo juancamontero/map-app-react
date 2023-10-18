@@ -5,11 +5,17 @@ import { Feature } from "../interfaces/places"
 
 export const SearchResults = () => {
   const { places, isLoadingPlaces, userLocation } = useContext(PlacesContext)
-  const { map, getRouteBetweenPoints, getGazaSize } = useContext(MapContext)
+  const {
+    map,
+    getRouteBetweenPoints,
+    getGazaSize,
+    displaySearchResult,
+    showHideResults,
+  } = useContext(MapContext)
 
   const [activeId, setActiveId] = useState("")
-  const [hideResults, setHideResults] = useState(false)
-  const swapResults = () => setHideResults(!hideResults)
+  // const [hideResults, setHideResults] = useState(false)
+  const swapResults = () => showHideResults() //setHideResults(!hideResults)
 
   const onPlaceClick = (place: Feature) => {
     setActiveId(place.id)
@@ -26,6 +32,7 @@ export const SearchResults = () => {
     const [lng, lat] = place.center
 
     getRouteBetweenPoints(userLocation, [lng, lat])
+    showHideResults()
   }
 
   const getGazaLines = (place: Feature) => {
@@ -39,15 +46,14 @@ export const SearchResults = () => {
 
   return (
     <>
-      {!hideResults && (
+      {!displaySearchResult && (
         <ul className="list-group mt-3">
           {places.map((place) => (
             <li
-              className={`list-group-item list-group-item-action pointer ${
+              className={`list-group-item list-group-item-action  ${
                 activeId === place.id ? "active" : ""
               }`}
               key={place.id}
-              onClick={() => onPlaceClick(place)}
             >
               <h6>{place.text}</h6>
               <p className="text-muted" style={{ fontSize: "10px" }}>
@@ -61,6 +67,16 @@ export const SearchResults = () => {
                   } btn-sm`}
                 >
                   Directions
+                </button>
+                <button
+                  onClick={() => onPlaceClick(place)}
+                  className={`btn ${
+                    activeId === place.id
+                      ? "btn-secondary"
+                      : "btn-outline-secondary"
+                  } btn-sm ms-2`}
+                >
+                  Fly to
                 </button>
                 <button
                   onClick={() => getGazaLines(place)}

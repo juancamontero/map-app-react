@@ -6,6 +6,7 @@ export interface MapContextProps {
   // Properties
   isMapReady: boolean
   map?: Map
+  displaySearchResult: boolean
 
   // Methods
   setMap: (map: Map) => void
@@ -14,6 +15,7 @@ export interface MapContextProps {
     end: [number, number]
   ) => Promise<void>
   getGazaSize: (start: [number, number]) => void
+  showHideResults: () => void
 }
 
 export const MapContext = createContext<MapContextProps>({} as MapContextProps)

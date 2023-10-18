@@ -5,6 +5,7 @@ import { Map, Marker } from "mapbox-gl"
 type MapsAction =
   | { type: "setMap"; payload: Map }
   | { type: "setMarkers"; payload: Marker[] }
+  | { type: "swapSearchResults" }
 
 export const mapReducer = (state: MapState, action: MapsAction): MapState => {
   switch (action.type) {
@@ -19,7 +20,11 @@ export const mapReducer = (state: MapState, action: MapsAction): MapState => {
         ...state,
         markers: action.payload,
       }
-
+    case "swapSearchResults":
+      return {
+        ...state,
+        displaySearchResult: !state.displaySearchResult,
+      }
     default:
       return state
   }

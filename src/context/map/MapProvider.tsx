@@ -18,12 +18,14 @@ export interface MapState {
   isMapReady: boolean
   map?: Map
   markers: Marker[]
+  displaySearchResult: boolean
 }
 
 const INITIAL_STATE: MapState = {
   isMapReady: false,
   map: undefined,
   markers: [],
+  displaySearchResult: false,
 }
 
 interface Props {
@@ -105,7 +107,7 @@ export const MapProvider = ({ children }: Props) => {
     }
 
     // * ajusta el mapa a los bound con un padding
-    state.map?.fitBounds(bounds, { padding: 220 })
+    state.map?.fitBounds(bounds, { padding: 20 })
 
     // * creo polyline
     const sourceData: AnySourceData = {
@@ -133,7 +135,7 @@ export const MapProvider = ({ children }: Props) => {
       state.map?.removeSource("RouteString")
     }
 
-    // * adiciono la data al maoa
+    // * adiciono la data al mapa
     state.map?.addSource("RouteString", sourceData)
 
     //* creo un layer con el ID del source de la data
@@ -165,10 +167,12 @@ export const MapProvider = ({ children }: Props) => {
       const newCoord: [number, number] = [coord[0], coord[1]]
       bounds.extend(newCoord)
     }
-    // console.log({bounds})
 
     // * ajusta el mapa a los bound con un padding
     state.map?.fitBounds(bounds, { padding: 20 })
+
+    // *vuelo al punto
+    // state.map?.setZoom(9)
 
     // * creo polyline
     const sourceData: AnySourceData = {
@@ -215,15 +219,22 @@ export const MapProvider = ({ children }: Props) => {
     })
   }
 
+  // * Show / hide resultds
+  const showHideResults = () => {
+    dispatch({ type: "swapSearchResults" })
+  
+  }
+
   return (
     <MapContext.Provider
       value={{
         ...state,
 
         // Methods
-        setMap,
-        getRouteBetweenPoints,
         getGazaSize,
+        getRouteBetweenPoints,
+        setMap,
+        showHideResults,
       }}
     >
       {children}
