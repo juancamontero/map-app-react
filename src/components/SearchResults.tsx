@@ -14,8 +14,7 @@ export const SearchResults = () => {
   } = useContext(MapContext)
 
   const [activeId, setActiveId] = useState("")
-  // const [hideResults, setHideResults] = useState(false)
-  const swapResults = () => showHideResults() //setHideResults(!hideResults)
+  const swapResults = () => showHideResults() 
 
   const onPlaceClick = (place: Feature) => {
     setActiveId(place.id)

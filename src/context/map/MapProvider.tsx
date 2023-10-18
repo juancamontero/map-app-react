@@ -175,6 +175,22 @@ export const MapProvider = ({ children }: Props) => {
     // state.map?.setZoom(9)
 
     // * creo polyline
+    // const sourceData: AnySourceData = {
+    //   type: "geojson",
+    //   data: {
+    //     type: "FeatureCollection",
+    //     features: [
+    //       {
+    //         type: "Feature",
+    //         properties: {},
+    //         geometry: {
+    //           type: "LineString",
+    //           coordinates: coords,
+    //         },
+    //       },
+    //     ],
+    //   },
+    // }
     const sourceData: AnySourceData = {
       type: "geojson",
       data: {
@@ -184,8 +200,8 @@ export const MapProvider = ({ children }: Props) => {
             type: "Feature",
             properties: {},
             geometry: {
-              type: "LineString",
-              coordinates: coords,
+              type: "Polygon",
+              coordinates: [coords],
             },
           },
         ],
@@ -194,18 +210,19 @@ export const MapProvider = ({ children }: Props) => {
 
     // * remover polylines if them exist previusly porque solo creé un ID
 
-    if (state.map?.getLayer("Gaza")) {
+    if (state.map?.getLayer("GazaLine")) {
       // * remuevo layer y data
-      state.map?.removeLayer("Gaza")
+      state.map?.removeLayer("GazaLine")
+      state.map?.removeLayer("GazaFill")
       state.map?.removeSource("GazaSizePolyline")
     }
 
     // * adiciono la data al maoa
     state.map?.addSource("GazaSizePolyline", sourceData)
 
-    //* creo un layer con el ID del source de la data
+    //* creo un layer con el ID del source de la data y la línea
     state.map?.addLayer({
-      id: "Gaza",
+      id: "GazaLine",
       type: "line",
       source: "GazaSizePolyline",
       layout: {
@@ -214,7 +231,17 @@ export const MapProvider = ({ children }: Props) => {
       },
       paint: {
         "line-color": "red",
-        "line-width": 6,
+        "line-width": 8,
+      },
+    })
+    state.map?.addLayer({
+      id: "GazaFill",
+      type: "fill",
+      source: "GazaSizePolyline", // reference the data source
+      layout: {},
+      paint: {
+        "fill-color": "#0080ff", // blue color fill
+        "fill-opacity": 0.5,
       },
     })
   }
