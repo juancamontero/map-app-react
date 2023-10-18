@@ -37,8 +37,8 @@ export const SearchResults = () => {
 
   const getGazaLines = (place: Feature) => {
     const [lng, lat] = place.center
-
     getGazaSize([lng, lat])
+    showHideResults()
   }
 
   if (isLoadingPlaces) return <LoadingPlaces />

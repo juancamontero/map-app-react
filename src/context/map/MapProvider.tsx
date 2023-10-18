@@ -222,7 +222,6 @@ export const MapProvider = ({ children }: Props) => {
   // * Show / hide resultds
   const showHideResults = () => {
     dispatch({ type: "swapSearchResults" })
-  
   }
 
   return (
